@@ -6,16 +6,16 @@ using namespace std;
 
 class Polynomial {
 private:
-    map<int, int> terms; // map ªº key ªí¥Ü¦¸¤è¡Avalue ªí¥Ü¸Ó¦¸¤èªº«Y¼Æ
+    map<int, int> terms; // map çš„ key è¡¨ç¤ºæ¬¡æ–¹ï¼Œvalue è¡¨ç¤ºè©²æ¬¡æ–¹çš„ä¿‚æ•¸
 
-    // ±N¦r¦ê¸ÑªR¬°¦h¶µ¦¡
+    // å°‡å­—ä¸²è§£æç‚ºå¤šé …å¼
     void parse(const string& poly) {
         int i = 0;
         while (i < poly.length()) {
             int coef = 0, exp = 0;
             bool hasX = false, isNegative = false;
 
-            // ³B²z¥¿­t¸¹
+            // è™•ç†æ­£è² è™Ÿ
             if (poly[i] == '-') {
                 isNegative = true;
                 i++;
@@ -24,21 +24,21 @@ private:
                 i++;
             }
 
-            // ¨ú±o«Y¼Æ
+            // å–å¾—ä¿‚æ•¸
             while (i < poly.length() && isdigit(poly[i])) {
                 coef = coef * 10 + (poly[i] - '0');
                 i++;
             }
-            if (coef == 0) coef = 1; // ­Y«Y¼Æ¬Ù²¤¡AÀq»{¬° 1
+            if (coef == 0) coef = 1; // è‹¥ä¿‚æ•¸çœç•¥ï¼Œé»˜èªç‚º 1
             if (isNegative) coef = -coef;
 
-            // ÀË¬d¬O§_¦³ x
+            // æª¢æŸ¥æ˜¯å¦æœ‰ x
             if (i < poly.length() && poly[i] == 'x') {
                 hasX = true;
                 i++;
             }
 
-            // ³B²z¦¸¤è
+            // è™•ç†æ¬¡æ–¹
             if (hasX && i < poly.length() && poly[i] == '^') {
                 i++;
                 while (i < poly.length() && isdigit(poly[i])) {
@@ -47,27 +47,27 @@ private:
                 }
             }
             else if (hasX) {
-                exp = 1; // ­YµL¦¸¤è²Å¸¹¡AÀq»{¦¸¤è¬° 1
+                exp = 1; // è‹¥ç„¡æ¬¡æ–¹ç¬¦è™Ÿï¼Œé»˜èªæ¬¡æ–¹ç‚º 1
             }
 
-            // ­YµL x¡A¦¸¤è¬° 0
+            // è‹¥ç„¡ xï¼Œæ¬¡æ–¹ç‚º 0
             if (!hasX) exp = 0;
 
-            // §ó·s map
+            // æ›´æ–° map
             terms[exp] += coef;
         }
     }
 
 public:
-    // Àq»{ºc³y¨ç¼Æ
+    // é»˜èªæ§‹é€ å‡½æ•¸
     Polynomial() {}
 
-    // ±q¦r¦êºc³y¦h¶µ¦¡
+    // å¾å­—ä¸²æ§‹é€ å¤šé …å¼
     Polynomial(const string& poly) {
         parse(poly);
     }
 
-    // ¥[ªk
+    // åŠ æ³•
     Polynomial operator+(const Polynomial& other) const {
         Polynomial result = *this;
         for (auto it : other.terms) {
@@ -76,7 +76,7 @@ public:
         return result;
     }
 
-    // ­¼ªk
+    // ä¹˜æ³•
     Polynomial operator*(const Polynomial& other) const {
         Polynomial result;
         for (auto it1 : terms) {
@@ -89,16 +89,16 @@ public:
         return result;
     }
 
-    // ±N¦h¶µ¦¡Âà¬°¦r¦ê®æ¦¡
+    // å°‡å¤šé …å¼è½‰ç‚ºå­—ä¸²æ ¼å¼
     string toString() const {
         string result = "";
         for (auto it = terms.rbegin(); it != terms.rend(); ++it) {
             int coef = it->second;
             int exp = it->first;
 
-            if (coef == 0) continue; // ©¿²¤«Y¼Æ¬° 0 ªº¶µ
+            if (coef == 0) continue; // å¿½ç•¥ä¿‚æ•¸ç‚º 0 çš„é …
 
-            // ³B²z¥¿­t¸¹
+            // è™•ç†æ­£è² è™Ÿ
             if (!result.empty()) {
                 if (coef > 0) result += " + ";
                 else result += " - ";
@@ -107,11 +107,11 @@ public:
                 if (coef < 0) result += "-";
             }
 
-            // ³B²z«Y¼Æ
+            // è™•ç†ä¿‚æ•¸
             coef = abs(coef);
             if (coef != 1 || exp == 0) result += to_string(coef);
 
-            // ³B²z¦¸¤è
+            // è™•ç†æ¬¡æ–¹
             if (exp > 0) result += "x";
             if (exp > 1) result += "^" + to_string(exp);
         }
@@ -123,9 +123,9 @@ public:
 int main() {
     string poly1, poly2;
 
-    cout << "¿é¤J²Ä¤@­Ó¦h¶µ¦¡ (¨Ò¦p 3x^2 + 2x - 5): ";
+    cout << "è¼¸å…¥ç¬¬ä¸€å€‹å¤šé …å¼: ";
     getline(cin, poly1);
-    cout << "¿é¤J²Ä¤G­Ó¦h¶µ¦¡ (¨Ò¦p x^2 - 4x + 6): ";
+    cout << "è¼¸å…¥ç¬¬äºŒå€‹å¤šé …å¼: ";
     getline(cin, poly2);
 
     Polynomial p1(poly1);
@@ -134,8 +134,8 @@ int main() {
     Polynomial sum = p1 + p2;
     Polynomial product = p1 * p2;
 
-    cout << "¥[ªkµ²ªG: " << sum.toString() << endl;
-    cout << "­¼ªkµ²ªG: " << product.toString() << endl;
+    cout << "åŠ æ³•çµæœ: " << sum.toString() << endl;
+    cout << "ä¹˜æ³•çµæœ: " << product.toString() << endl;
 
     return 0;
 }
